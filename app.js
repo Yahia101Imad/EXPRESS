@@ -2,17 +2,20 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const moviesRouter = require('./routes/moviesRouter')
+const moviesRouter = require("./routes/moviesRouter");
 
 // MIDDLEWARE
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
 app.use(express.json());
 app.use((req, res, next) => {
   req.requestedAT = new Date().toISOString();
   next();
 });
-app.use(express.static('./public'))
+app.use(express.static("./public"));
 // Router
 app.use("/api/v1/movies", moviesRouter);
 
-module.exports = app
+module.exports = app;

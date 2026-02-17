@@ -15,7 +15,7 @@ const DB = process.env.CONN_STR.replace(
   process.env.DB_USERNAME,
 ).replace("<PASSWORD>", process.env.DB_PASSWORD);
 
-mongoose.connect(DB);
+mongoose.connect(DB)
 // .then(() => {
 //   console.log("Connected succeed");
 

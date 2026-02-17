@@ -1,8 +1,72 @@
 [
-  { "id": 1, "title": "Inception", "year": 2010, "rating": 8.8 },
-  { "id": 2, "title": "Interstellar", "year": 2014, "rating": 8.6 },
-  { "id": 3, "title": "The Dark Knight", "year": 2008, "rating": 9 },
-  { "id": 4, "title": "Fight Club", "year": 1999, "rating": 8.8 },
-  { "id": 5, "title": "Forrest Gump", "year": 1994, "rating": 8.8 },
-  { "id": 6, "title": "text1", "year": 1999 }
+  {
+    "name": "Inception",
+    "description": "A skilled thief is given a chance at redemption if he can successfully perform inception.",
+    "duration": 148,
+    "rating": 8.8,
+    "totalRating": 1200,
+    "releaseYear": 2010,
+    "releaseDate": "2010-07-16T00:00:00.000Z",
+    "genres": ["Sci-Fi", "Action", "Thriller"],
+    "directors": ["Christopher Nolan"],
+    "coverImage": "inception.jpg",
+    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
+    "price": 12.99
+  },
+  {
+    "name": "The Dark Knight",
+    "description": "Batman faces the Joker, a criminal mastermind who plunges Gotham into chaos.",
+    "duration": 152,
+    "rating": 9.0,
+    "totalRating": 1500,
+    "releaseYear": 2008,
+    "releaseDate": "2008-07-18T00:00:00.000Z",
+    "genres": ["Action", "Crime", "Drama"],
+    "directors": ["Christopher Nolan"],
+    "coverImage": "dark-knight.jpg",
+    "actors": ["Christian Bale", "Heath Ledger", "Aaron Eckhart"],
+    "price": 10.99
+  },
+  {
+    "name": "Interstellar",
+    "description": "A team of explorers travel through a wormhole in space in an attempt to save humanity.",
+    "duration": 169,
+    "rating": 8.6,
+    "totalRating": 1100,
+    "releaseYear": 2014,
+    "releaseDate": "2014-11-07T00:00:00.000Z",
+    "genres": ["Sci-Fi", "Adventure", "Drama"],
+    "directors": ["Christopher Nolan"],
+    "coverImage": "interstellar.jpg",
+    "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+    "price": 14.99
+  },
+  {
+    "name": "Gladiator",
+    "description": "A former Roman General sets out to exact vengeance against the corrupt emperor.",
+    "duration": 155,
+    "rating": 8.5,
+    "totalRating": 980,
+    "releaseYear": 2000,
+    "releaseDate": "2000-05-05T00:00:00.000Z",
+    "genres": ["Action", "Adventure", "Drama"],
+    "directors": ["Ridley Scott"],
+    "coverImage": "gladiator.jpg",
+    "actors": ["Russell Crowe", "Joaquin Phoenix", "Connie Nielsen"],
+    "price": 9.99
+  },
+  {
+    "name": "The Matrix",
+    "description": "A hacker discovers the reality he lives in is a simulated world controlled by machines.",
+    "duration": 136,
+    "rating": 8.7,
+    "totalRating": 1300,
+    "releaseYear": 1999,
+    "releaseDate": "1999-03-31T00:00:00.000Z",
+    "genres": ["Sci-Fi", "Action"],
+    "directors": ["Lana Wachowski", "Lilly Wachowski"],
+    "coverImage": "matrix.jpg",
+    "actors": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+    "price": 11.99
+  }
 ]

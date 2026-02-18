@@ -14,10 +14,10 @@ const DB = process.env.CONN_STR.replace(
 
 mongoose.connect(DB)
 .then((doc) => {
-  console.log(doc);
+  console.log('Connection succeed !');
 })
 .catch((err) => {
-  console.log(err);
+  console.log('Connection failed !');
 });
 
 // IMPORT THE MOVIES DATA FROM data/movies.json
@@ -38,7 +38,7 @@ const deleteData = async () => {
 const importData = async () => {
     try{
         await Movie.create(movies)
-        console.log('Data deleted !')
+        console.log('Data imported !')
     }catch(err) {
         console.log(`Error has occured: ${err}`)
     }

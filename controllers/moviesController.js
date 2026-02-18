@@ -4,9 +4,24 @@ const Movie = require("../models/movieModel");
 // ROUTE HANDLER FUNCTIONS
 const getAllMovies = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    // ADVANCED FILTERING
+    let queryStr = JSON.stringify(req.query);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    const queryObj = JSON.parse(queryStr);
+
+    let query = Movie.find(queryObj);
+
+    // SORTING LOGIC 
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ')
+      query = query.sort(sortBy)
+    }
+
+    const movies = await query
+    
     res.status(200).json({
       status: "succeed",
+      length: movies.length,
       data: {
         movies,
       },

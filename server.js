@@ -29,12 +29,12 @@ mongoose.connect(DB)
 
 //   return movieTest.save();
 // })
-// .then((doc) => {
-//   console.log(doc);
-// })
-// .catch((err) => {
-//   console.log(err);
-// });
+.then((doc) => {
+  console.log("Connected succeed");
+})
+.catch((err) => {
+  console.log(err);
+});
 
 // SERVER
 app.listen(port, () => {

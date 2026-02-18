@@ -4,6 +4,9 @@ const app = express();
 const morgan = require("morgan");
 const moviesRouter = require("./routes/moviesRouter");
 
+// SETTING THE QUERY PARSER
+app.set('query parser', 'extended');
+
 // MIDDLEWARE
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

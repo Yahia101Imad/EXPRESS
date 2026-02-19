@@ -37,6 +37,7 @@ const movieSchema = new mongoose.Schema(
     releaseDate: {
       type: Date,
       required: true,
+      select: false
     },
     genres: {
       type: [String],

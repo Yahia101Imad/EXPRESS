@@ -12,7 +12,9 @@ const {
 // ROUTING
 const moviesRouter = express.Router();
 
+// TODO: THIS ROUTE DOES NOT WORK !
 moviesRouter.route("/highest-rated").get(getHighestRated, getAllMovies);
+
 moviesRouter.route("/").get(getAllMovies).post(postMovie);
 moviesRouter.route("/:id").get(getMovie).patch(patchMovie).delete(deleteMovie);
 

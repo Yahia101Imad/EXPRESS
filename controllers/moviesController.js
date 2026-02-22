@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 const Movie = require("../models/movieModel");
+const apiFeatures = require("../utils/apiFeatures");
 
 // ROUTE HANDLER FUNCTIONS
 
@@ -10,52 +11,15 @@ const getHighestRated = (req, res, next) => {
 };
 
 const getAllMovies = async (req, res) => {
-  console.log("REQ QUERY:", req.query, "REQ PARAMS:", req.params);
   try {
+    // CLASS API FEATURES
+    const features = new apiFeatures(Movie.find(), req.query).filter().sort().select().paginate()
+    let movies = await features.query
+
     // EXCLUDED FIELDS
     const queryObj = { ...req.query };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
-
-    // ADVANCED FILTERING
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
-    // QUERY
-    let query = Movie.find(JSON.parse(queryStr));
-
-    // SORTING LOGIC
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    }
-
-    // SELECTING FIELDS
-    if (req.query.fields) {
-      const selectBy = req.query.fields.split(",").join(" ");
-      query = query.select(selectBy);
-    } else {
-      query = query.select("-__v");
-    }
-
-    // PAGINATION
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    const moviesCount = await Movie.countDocuments(JSON.parse(queryStr));
-
-    if (skip >= moviesCount && moviesCount > 0) {
-      return res.status(404).json({
-        status: "fail",
-        message: "This page does not exist",
-      });
-    }
-
-    query = query.skip(skip).limit(limit);
-
-    // MOVIES AWAIT
-    const movies = await query;
 
     res.status(200).json({
       status: "succeed",

@@ -1,0 +1,8 @@
+This movie is test 1, created by IMAD
+This movie is test 2, created by IMAD
+This movie is test 3, created by IMAD
+This movie is test 4, created by IMAD
+This movie is test 5, created by IMAD
+This document takes 117 milliseconds
+This document takes 135 milliseconds 
+This document takes 126 milliseconds 

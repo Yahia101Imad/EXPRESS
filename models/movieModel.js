@@ -1,5 +1,6 @@
 // IMPORT PACKAGE
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 // SCHEMA
 const movieSchema = new mongoose.Schema(
@@ -37,7 +38,7 @@ const movieSchema = new mongoose.Schema(
     releaseDate: {
       type: Date,
       required: true,
-      select: false
+      select: false,
     },
     genres: {
       type: [String],
@@ -59,11 +60,56 @@ const movieSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    createdBy: {
+      type: String,
+    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+movieSchema.virtual("durationInHours").get(function () {
+  return this.duration / 60;
+});
+
+//**********************************************************MIDDLEWARE***********************************************************//
+
+// 1. DOCUMENT MIDDLEWARE
+
+// EXECUTED BEFORE THE DOCUMENT HAS SAVED IN DB
+movieSchema.pre("save", function () {
+  this.createdBy = "IMAD";
+});
+
+// EXECUTED AFTER THE DOCUMENT HAS SAVED IN DB
+movieSchema.post("save", function (doc) {
+  const content = `This movie is ${doc.name}, created by ${doc.createdBy}\r\n`;
+  fs.writeFile("./log/log.txt", content, { flag: "a" }, (err) => {
+    console.log(err.message);
+  });
+});
+
+// 2. QUERY MIDDLEWARE
+
+// EXECUTED BEFORE THE DOCUMENT HAS SAVED IN DB
+movieSchema.pre(/^find/, function () {
+  this.find({ releaseDate: { $lte: Date.now() } });
+  this.startTime = Date.now();
+});
+
+// EXECUTED AFTER THE DOCUMENT HAS SAVED IN DB
+movieSchema.post(/^find/, function (docs) {
+  this.endTime = Date.now();
+  const content = `This document takes ${this.endTime - this.startTime} milliseconds \r\n`;
+  fs.writeFile("./log/log.txt", content, { flag: "a" }, (err) => {
+    console.log(err.message);
+  });
+});
+
+//*******************************************************************************************************************************//
 
 // MODEL
 const Movie = mongoose.model("Movie", movieSchema);

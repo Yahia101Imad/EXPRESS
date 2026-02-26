@@ -6,3 +6,6 @@ This movie is test 5, created by IMAD
 This document takes 117 milliseconds
 This document takes 135 milliseconds 
 This document takes 126 milliseconds 
+This document takes 138 milliseconds 
+This document takes 115 milliseconds 
+This movie is exemple, created by IMAD

@@ -1,6 +1,7 @@
 // IMPORT PACKAGE
 const mongoose = require("mongoose");
 const fs = require("fs");
+const validator = require('validator')
 
 // SCHEMA
 const movieSchema = new mongoose.Schema(
@@ -9,6 +10,9 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      minLength: [4, 'The name field must not be below 4 characters'],
+      maxLength: [100, 'The name field must not be above 100 characters'],
+      validate: [validator.isAlpha, 'The name should be alphabets only.']
     },
     description: {
       type: String,
@@ -23,8 +27,13 @@ const movieSchema = new mongoose.Schema(
     rating: {
       type: Number,
       required: true,
-      min: 0,
-      max: 10,
+      // min: 0,
+      // max: 10,
+      validate: {
+        validator: function (value) {
+          return value >= 1 && value <= 10
+        }
+      }
     },
     totalRating: {
       type: Number,
@@ -37,7 +46,7 @@ const movieSchema = new mongoose.Schema(
     },
     releaseDate: {
       type: Date,
-      required: true,
+      // required: true,
       select: false,
     },
     genres: {
@@ -107,6 +116,13 @@ movieSchema.post(/^find/, function (docs) {
   fs.writeFile("./log/log.txt", content, { flag: "a" }, (err) => {
     console.log(err.message);
   });
+});
+
+// 3.AGGREGATION MIDDLEWARE
+
+// EXECUTED BEFORE THE DOCUMENT HAS SAVED IN DB
+movieSchema.pre("aggregation", function () {
+  this.pipeline().unshift({ releaseDate: { $lte: new Date() } });
 });
 
 //*******************************************************************************************************************************//

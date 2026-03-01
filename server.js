@@ -1,12 +1,18 @@
 // IMPORT PACKAGE
-const app = require("./app");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
-// ENVIRONMENT VARIABLES
-// console.log(app.get('env'))
-// console.log(process.env)
+// HANDLING UNCAUGHT EXCEPTION GLOBALLY
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message);
+  console.log("uncaught exception occurred! Shutting down...");
+  process.exit(1);
+});
+
+// APP PACKAGE
+const app = require("./app");
+
 const port = process.env.PORT || 3000;
 
 // MONGOOSE
@@ -15,28 +21,24 @@ const DB = process.env.CONN_STR.replace(
   process.env.DB_USERNAME,
 ).replace("<PASSWORD>", process.env.DB_PASSWORD);
 
-mongoose.connect(DB)
-// .then(() => {
-//   console.log("Connected succeed");
-
-// CREATE DOCUMENT FROM MODEL
-//   const movieTest = new Movie({
-//     name: "Shutter Island",
-//     description: "very good movie",
-//     duration: 120,
-//     rating: 8.4,
-//   });
-
-//   return movieTest.save();
-// })
-.then((doc) => {
-  console.log("Connected succeed");
-})
-.catch((err) => {
-  console.log(err);
+mongoose.connect(DB).then((doc) => {
+  console.log("DB Connected successfully!");
 });
+// .catch((err) => {
+//   console.log(err);
+// });
 
 // SERVER
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("The server is listening...");
+});
+
+// HANDLING REJECTED PROMISES GLOBALLY
+process.on("unhandledRejection", (err) => {
+  console.log(err.name, err.message);
+  console.log("Unhandled rejection occurred! Shutting down...");
+
+  server.close(() => {
+    process.exit(1);
+  });
 });

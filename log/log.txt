@@ -17,3 +17,5 @@ This movie is test 101, created by IMAD
 This document takes 796 milliseconds 
 This document takes 104 milliseconds 
 This document takes 657 milliseconds 
+This document takes 100 milliseconds 
+This document takes 113 milliseconds 

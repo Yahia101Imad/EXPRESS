@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema({
       massage: "The password & the Confirm Password do not match!",
     },
   },
+  passwordChangedAt: Date,
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  }
 });
 
 userSchema.pre("save", async function (next) {
@@ -54,6 +60,14 @@ if (!this.isModified("password")) return next();
 
 userSchema.methods.comparePasswords = async function (pswrd, pswrdDB) {
   return await bcrypt.compare(pswrd, pswrdDB);
+};
+
+userSchema.methods.isPasswordChanged = async function (JWTTimestamp) {
+  if(this.isPasswordChanged) {
+    const pswdChangedTimestamp = this.passwordChangedAt.getTime() / 1000
+
+    return JWTTimestamp < pswdChangedTimestamp
+  }
 };
 
 const User = mongoose.model("User", userSchema);

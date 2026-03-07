@@ -9,6 +9,7 @@ const {
   getHighestRated,
   getMovieStats,
   getMoviesByGenre,
+  restrict
 } = require("../controllers/moviesController");
 
 const { protect } = require("../controllers/authController");
@@ -24,7 +25,7 @@ moviesRouter.route("/movie-stats").get(getMovieStats);
 moviesRouter.route("/movies-by-genre/:genre").get(getMoviesByGenre);
 
 moviesRouter.route("/").get(protect, getAllMovies).post(postMovie);
-moviesRouter.route("/:id").get(getMovie).patch(patchMovie).delete(deleteMovie);
+moviesRouter.route("/:id").get(protect, getMovie).patch(patchMovie).delete(protect, restrict('admin'), deleteMovie);
 
 // EXPORTS
 module.exports = moviesRouter;

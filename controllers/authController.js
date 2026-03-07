@@ -73,12 +73,30 @@ const protect = asyncErrorHandler(async (req, res, next) => {
   console.log(decodedToken);
 
   // 3. If user exists
+  const user = await User.findById(decodedToken.id)
+
+  if (!user) {
+    return next(new CustomError("The user with that given token does not exist!", 401));
+  }
 
   // 4. If the user changed the password after the token was issued
+  const isPswrdChanged = await user.isPasswordChanged(decodedToken.iat)
+  if(isPswrdChanged) {
+    return next(new CustomError("The password has been changed recently, Please login again!", 401));
+  }
 
   // 5. Allow user to access route
-
+  req.user = user
   next();
 });
 
-module.exports = { signup, login, protect };
+const restrict = (role) => {
+  return (req, res, next) => {
+    if(req.user.role !== role) {
+      return next(new CustomError("You don't have permission to access this action", 403))
+    }
+    next()
+  }
+}
+
+module.exports = { signup, login, protect, restrict };
